@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     """
     APP_NAME = "Auto Test Manage System"  # api文档名称
     # 接口文档设置
-    TITLE: str = 'ProjectWeb'
+    TITLE: str = 'Auto Test Manage System'
     DESC: str = """
         `主要解决项目管理、团队管理、数据Mock、信息化同步、工时管理等研发问题`
         - 前端：`Vue2`  `ElementUI`   

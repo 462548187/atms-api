@@ -17,6 +17,9 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from tortoise.contrib.fastapi import register_tortoise
 
+# 导入子路由
+from .v1 import login_router, v1
+
 
 def create_app():
     # 初始化app实例
@@ -43,9 +46,9 @@ def create_app():
         register_tortoise(
             app,
             db_url=settings.DB_URL,
-            modules={"models": ["models.models"]},
+            modules={"models": ["models.user.user_model"]},
             # 生成表
-            generate_schemas=False,
+            generate_schemas=True,
             # 使用异常，当无数据是自动返回
             add_exception_handlers=True,
         )
@@ -61,4 +64,7 @@ def create_app():
                                expose_headers=["Content-Disposition"]
                                )
 
+        # 挂载子路由
+        app.include_router(prefix="/v1", router=login_router)
+        app.include_router(router=v1)
         return app

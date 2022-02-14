@@ -4,17 +4,9 @@
 @Author         :  Liu Yue
 @Version        :  
 ------------------------------------
-@File           :  __init__.py
+@File           :  __init__.py.py
 @Description    :  
-@CreateTime     :  2022/2/14 12:40
+@CreateTime     :  2022/2/14 15:38
 ------------------------------------
 @ModifyTime     :  
 """
-from fastapi import APIRouter
-from .login.view import login_router
-
-
-v1 = APIRouter(prefix="/v1")
-
-
-v1.include_router(login_router)
