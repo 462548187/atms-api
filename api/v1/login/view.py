@@ -34,21 +34,27 @@ async def login(request: Request, user_form: OAuth2PasswordRequestForm = Depends
     username = user_form.username
     password = user_form.password
 
+    # 2.数据库校验
+    is_exist_user = await user.User.filter(username=username, is_delete=0)
     user_obj = await user.User.get(username=username)
+    print(is_exist_user)
 
-    if user_obj:
+    if len(is_exist_user) > 0:
         # 停用的不让登录
         if user_obj.status == 2:
             content = {"code": 500, "msg": "该用户已停用,请联系管理员!"}
             return JSONResponse(content=content)
 
         # 判断用户是否激活
-        if not user_obj.is_active:
+        if user_obj.is_active == 0:
             # logger.error(f"{user_name.username}未激活")
-            raise HTTPException(
-                status_code=status.HTTP_406_NOT_ACCEPTABLE,
-                detail="用户未激活!!!",
-                headers={"WWW-Authenticate": "Bearer"}, )
+            content = {"code": 500, "msg": "该用未激活,请联系管理员!"}
+            return JSONResponse(content=content)
+
+        # print(security.get_password_hash(password))
+        if not security.verify_password(password, user_obj.password):
+            content = {"code": 500, "msg": "用户名或密码错误"}
+            return JSONResponse(content=content)
 
         # 启用的正常执行
         # 3.token生成
@@ -64,7 +70,7 @@ async def login(request: Request, user_form: OAuth2PasswordRequestForm = Depends
         content = {"code": 200, "msg": "登录成功", "token_type": "bearer", "access_token": access_token, "user": username}
         return JSONResponse(content=content)
     else:
-        content = {"code": 500, "msg": "用户名或密码错误"}
+        content = {"code": 500, "msg": "用户不存在!!!"}
         return JSONResponse(content=content)
 
 
