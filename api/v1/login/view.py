@@ -63,9 +63,10 @@ async def login(request: Request, user_form: OAuth2PasswordRequestForm = Depends
 
         # 4.返回token及用户信息
         # 日期格式需要转成字符串
-
         login_date = datetime.datetime.now()
         ip = request.client.host
+
+        # 更新最后 登录时间和ip地址
         await user.User.filter(username=username).update(ip=ip, last_login_date=login_date)
         content = {"code": 200, "msg": "登录成功", "token_type": "bearer", "access_token": access_token, "user": username}
         return JSONResponse(content=content)
