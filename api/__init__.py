@@ -16,9 +16,10 @@ from utils import scheduler
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from tortoise.contrib.fastapi import register_tortoise
+from api.v1.login import login_router
 
 # 导入子路由
-from .v1 import login_router, v1
+from .v1 import v1
 
 
 def create_app():
@@ -46,7 +47,7 @@ def create_app():
         register_tortoise(
             app,
             db_url=settings.DB_URL,
-            modules={"models": ["models.user.user_model"]},
+            modules={"models": ["models.user.model"]},
             # 生成表
             generate_schemas=True,
             # 使用异常，当无数据是自动返回
@@ -64,6 +65,7 @@ def create_app():
                                expose_headers=["Content-Disposition"]
                                )
 
+        # 挂载子路由
         # 挂载子路由
         app.include_router(prefix="/v1", router=login_router)
         app.include_router(router=v1)

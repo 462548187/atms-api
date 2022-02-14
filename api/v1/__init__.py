@@ -11,10 +11,8 @@
 @ModifyTime     :  
 """
 from fastapi import APIRouter
-from .login.view import login_router
-
+from .login import login_router
 
 v1 = APIRouter(prefix="/v1")
 
-
-v1.include_router(login_router)
+# v1.include_router(login_router)

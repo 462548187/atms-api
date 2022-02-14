@@ -4,7 +4,7 @@
 @Author         :  Liu Yue
 @Version        :  
 ------------------------------------
-@File           :  user_model.py
+@File           :  model.py
 @Description    :  
 @CreateTime     :  2022/2/14 14:24
 ------------------------------------
@@ -29,6 +29,8 @@ class User(Model):
     is_active = fields.BooleanField(default='1', description="是否激活")
     # 软删除，0表示未删除，1表示删除
     is_delete = fields.BooleanField(description="是否已删除", default='0')
+    # 状态,1表示启用，2表示停用
+    status = fields.IntField(description="是否在职", default='1')
     last_login_date = fields.DatetimeField(auto_now=True, description="最后登录时间")
     create_time = fields.DatetimeField(auto_now_add=True, description="创建时间")
     modified_time = fields.DatetimeField(auto_now=True, description="修改时间")

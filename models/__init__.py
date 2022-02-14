@@ -4,10 +4,9 @@
 @Author         :  Liu Yue
 @Version        :  
 ------------------------------------
-@File           :  __init__.py.py
+@File           :  __init__.py
 @Description    :  
-@CreateTime     :  2022/2/14 14:24
+@CreateTime     :  2022/2/14 19:40
 ------------------------------------
 @ModifyTime     :  
 """
-from .model import User
